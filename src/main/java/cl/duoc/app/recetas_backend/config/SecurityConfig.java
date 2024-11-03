@@ -17,6 +17,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/recetas/recientes/**").permitAll()
                                 .requestMatchers("/recetas/all").permitAll()
+                                .requestMatchers("/recetas/populares/**").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .anyRequest().authenticated()
                 )
