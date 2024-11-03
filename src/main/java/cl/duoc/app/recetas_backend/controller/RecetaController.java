@@ -36,4 +36,9 @@ public class RecetaController {
         return ResponseEntity.ok(recetaService.findAll());
     }
 
+    @GetMapping("/populares/{limite}")
+    public ResponseEntity<List<Receta>> populares(@PathVariable int limite) {
+        return ResponseEntity.ok(recetaService.obtenerRecetasMasPopulares(limite));
+    }
+
 }

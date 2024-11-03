@@ -21,4 +21,6 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
     default List<Receta> findRecientes(int limite) {
         return findAllByOrderByFechaCreacionDesc(PageRequest.of(0, limite));
     }
+
+    List<Receta> findAllByOrderByPopularidadDesc(Pageable pageable);
 }

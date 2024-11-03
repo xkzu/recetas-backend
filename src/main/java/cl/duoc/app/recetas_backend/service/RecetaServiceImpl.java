@@ -3,6 +3,7 @@ package cl.duoc.app.recetas_backend.service;
 import cl.duoc.app.recetas_backend.model.Receta;
 import cl.duoc.app.recetas_backend.repository.RecetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,5 +41,10 @@ public class RecetaServiceImpl implements RecetaService {
 
     public List<Receta> obtenerRecetasMasRecientes(int limite) {
         return repo.findRecientes(limite);
+    }
+
+    @Override
+    public List<Receta> obtenerRecetasMasPopulares(int limite) {
+        return repo.findAllByOrderByPopularidadDesc(PageRequest.of(0, limite));
     }
 }

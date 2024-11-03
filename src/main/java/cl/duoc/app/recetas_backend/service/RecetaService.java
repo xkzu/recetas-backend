@@ -16,4 +16,6 @@ public interface RecetaService {
     List<Receta> findByCountry(String country);
 
     List<Receta> obtenerRecetasMasRecientes(int limite);
+
+    List<Receta> obtenerRecetasMasPopulares(int limite);
 }
