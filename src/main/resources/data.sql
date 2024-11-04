@@ -37,3 +37,16 @@ INSERT INTO receta (nombre, tipo_cocina, ingredientes, pais_origen, dificultad, 
     ('Chipa', 'Horno', 'Harina de maíz, queso, huevos, leche, manteca', 'Paraguay', 'Medio', 70, 'Amasar y hornear hasta que estén doradas', 45, 6, '/images/chipa.jpg', '2024-11-02 00:00:00');
 INSERT INTO receta (nombre, tipo_cocina, ingredientes, pais_origen, dificultad, popularidad, instrucciones_preparacion, tiempo_coccion, porciones, fotografia_url, fecha_creacion) VALUES
     ('Mbeju', 'Sartén', 'Almidón de mandioca, queso, manteca, leche', 'Paraguay', 'Fácil', 65, 'Cocinar en sartén hasta dorar', 30, 4, '/images/mbeju.jpg', '2024-11-02 01:00:00');
+
+-- Datos de ejemplo para la tabla usuario
+
+INSERT INTO usuario (nombre_usuario, contrasena, rol) VALUES
+                                                          ('alvaro', '1234', true),
+                                                          ('maria', 'abcd', false),
+                                                          ('juan', 'password', true);
+
+INSERT INTO banner (empresa_nombre, mensaje, url_imagen, link_website, fecha_creacion) VALUES
+                                                                                           ('TechCorp', 'Aprovecha nuestras últimas ofertas en tecnología', '/images/techcorp.jpg', 'https://www.techcorp.com', '2024-11-01 10:00:00'),
+                                                                                           ('EcoGreen', 'Cuidamos el planeta con nuestros productos ecoamigables', '/images/ecogreen.jpg', 'https://www.ecogreen.com', '2024-11-01 11:00:00'),
+                                                                                           ('AutoPlus', 'Encuentra el auto de tus sueños al mejor precio', '/images/autoplus.jpg', 'https://www.autoplus.com', '2024-11-01 12:00:00');
+
