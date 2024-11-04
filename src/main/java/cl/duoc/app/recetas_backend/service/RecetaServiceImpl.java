@@ -47,4 +47,8 @@ public class RecetaServiceImpl implements RecetaService {
     public List<Receta> obtenerRecetasMasPopulares(int limite) {
         return repo.findAllByOrderByPopularidadDesc(PageRequest.of(0, limite));
     }
+
+    public List<Receta> buscarRecetas(String nombre, String tipoCocina, String ingredientes, String paisOrigen, String dificultad) {
+        return repo.buscarRecetas(nombre, tipoCocina, ingredientes, paisOrigen, dificultad);
+    }
 }
