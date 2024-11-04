@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/recetas")
@@ -41,4 +42,31 @@ public class RecetaController {
         return ResponseEntity.ok(recetaService.obtenerRecetasMasPopulares(limite));
     }
 
+    @GetMapping("/buscar/{nombre}/{tipoCocina}/{ingredientes}/{paisOrigen}/{dificultad}")
+    public ResponseEntity<List<Receta>> buscarRecetas(
+            @PathVariable String nombre,
+            @PathVariable String tipoCocina,
+            @PathVariable String ingredientes,
+            @PathVariable String paisOrigen,
+            @PathVariable String dificultad) {
+
+        List<Receta> recetas = recetaService.buscarRecetas(
+                "any".equalsIgnoreCase(nombre) ? null : nombre,
+                "any".equalsIgnoreCase(tipoCocina) ? null : tipoCocina,
+                "any".equalsIgnoreCase(ingredientes) ? null : ingredientes,
+                "any".equalsIgnoreCase(paisOrigen) ? null : paisOrigen,
+                "any".equalsIgnoreCase(dificultad) ? null : dificultad);
+
+        return ResponseEntity.ok(recetas);
+    }
+
+    @GetMapping("/detalle/{id}")
+    public ResponseEntity<Receta> getRecetaDetalle(@PathVariable Long id) {
+        Optional<Receta> receta = recetaService.findById(id);
+        if (receta.isPresent()) {
+            return ResponseEntity.ok(receta.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
