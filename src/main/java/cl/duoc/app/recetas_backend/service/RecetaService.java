@@ -18,4 +18,6 @@ public interface RecetaService {
     List<Receta> obtenerRecetasMasRecientes(int limite);
 
     List<Receta> obtenerRecetasMasPopulares(int limite);
+
+    List<Receta> buscarRecetas(String nombre, String tipoCocina, String ingredientes, String paisOrigen, String dificultad);
 }
