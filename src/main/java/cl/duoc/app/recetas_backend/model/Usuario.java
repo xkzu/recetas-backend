@@ -24,6 +24,12 @@ public class Usuario {
     @Column(name = "nombre_usuario", unique = true, nullable = false)
     private String nombreUsuario;
 
+    @Column(name = "nombre_completo", nullable = false)
+    private String nombreCompleto;
+
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
+
     @Column(name = "contrasena", nullable = false)
     private String contrasena;
 
