@@ -40,10 +40,15 @@ INSERT INTO receta (nombre, tipo_cocina, ingredientes, pais_origen, dificultad, 
 
 -- Datos de ejemplo para la tabla usuario
 
-INSERT INTO usuario (nombre_usuario, contrasena, rol) VALUES
-                                                          ('alvaro', '1234', true),
-                                                          ('maria', 'abcd', false),
-                                                          ('juan', 'password', true);
+INSERT INTO usuario (nombre_usuario, nombre_completo, email, contrasena, rol) VALUES
+    ('alvaro', 'Álvaro Vega', 'alvaro.vegap@duocuc.cl', '1234', 1);
+
+INSERT INTO usuario (nombre_usuario, nombre_completo, email, contrasena, rol) VALUES
+    ('maria', 'Maria Gómez', 'maria@example.com', 'abcd', 0);
+
+INSERT INTO usuario (nombre_usuario, nombre_completo, email, contrasena, rol) VALUES
+    ('juan', 'Juan López', 'juan@example.com', 'password', 1);
+
 
 INSERT INTO banner (empresa_nombre, mensaje, url_imagen, link_website, fecha_creacion) VALUES
                                                                                            ('TechCorp', 'Aprovecha nuestras últimas ofertas en tecnología', '/images/techcorp.jpg', 'https://www.techcorp.com', '2024-11-01 10:00:00'),
