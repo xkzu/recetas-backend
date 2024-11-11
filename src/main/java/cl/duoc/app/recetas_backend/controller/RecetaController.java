@@ -2,10 +2,16 @@ package cl.duoc.app.recetas_backend.controller;
 
 import cl.duoc.app.recetas_backend.model.Receta;
 import cl.duoc.app.recetas_backend.service.RecetaService;
+import cl.duoc.app.recetas_backend.util.JwtUtil;
+import cl.duoc.app.recetas_backend.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,9 +24,12 @@ public class RecetaController {
 
     private final RecetaService recetaService;
 
+    private final JwtUtil jwtUtil;
+
     @Autowired
-    public RecetaController(RecetaService recetaService) {
+    public RecetaController(RecetaService recetaService, JwtUtil jwtUtil) {
         this.recetaService = recetaService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/recientes/{limite}")
@@ -69,4 +78,35 @@ public class RecetaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<Receta> registrarReceta(@RequestBody Receta receta, @RequestHeader("Authorization") String token) {
+        try {
+            if (token == null || !token.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            token = token.substring(7);
+            String username = jwtUtil.extractUsername(token);
+
+            if (Boolean.FALSE.equals(jwtUtil.validateToken(token, username))) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            if (Util.isEmptyOrNull(receta.getDificultad())
+                    || Util.isEmptyOrNull(receta.getNombre())
+                    || Util.isEmptyOrNull(receta.getIngredientes())
+                    || Util.isEmptyOrNull(receta.getPaisOrigen())
+                    || Util.isEmptyOrNull(receta.getFotografiaUrl())
+                    || Util.isEmptyOrNull(receta.getTipoCocina())
+                    || Util.isEmptyOrNull(receta.getInstruccionesPreparacion())) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            return ResponseEntity.ok(recetaService.register(receta));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
 }
