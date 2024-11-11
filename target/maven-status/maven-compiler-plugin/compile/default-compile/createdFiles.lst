@@ -11,6 +11,7 @@ cl\duoc\app\recetas_backend\util\JwtUtil.class
 cl\duoc\app\recetas_backend\response\LoginResponse.class
 cl\duoc\app\recetas_backend\model\Banner.class
 cl\duoc\app\recetas_backend\controller\UsuarioController.class
+cl\duoc\app\recetas_backend\util\Util.class
 cl\duoc\app\recetas_backend\service\BannerServiceImpl.class
 cl\duoc\app\recetas_backend\service\RecetaService.class
 cl\duoc\app\recetas_backend\service\RecetaServiceImpl.class
