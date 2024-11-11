@@ -10,8 +10,10 @@ CREATE TABLE IF NOT EXISTS receta (
     tiempo_coccion INT,
     porciones INT,
     fotografia_url VARCHAR(255),
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_usuario BIGINT NOT NULL
     );
+
 
 CREATE TABLE usuario (
                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -21,6 +23,11 @@ CREATE TABLE usuario (
                          contrasena VARCHAR(255) NOT NULL,
                          rol BOOLEAN DEFAULT FALSE
 );
+
+ALTER TABLE receta
+    ADD CONSTRAINT fk_receta_usuario
+        FOREIGN KEY (id_usuario)
+            REFERENCES usuario (id);
 
 
 CREATE UNIQUE INDEX usuario_nombre_usuario_uindex ON usuario (nombre_usuario);
