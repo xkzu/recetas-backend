@@ -57,4 +57,7 @@ public class Receta {
     @CreationTimestamp
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
+
+    @Column(name = "id_usuario", nullable = false)
+    private Long idUsuario;
 }
