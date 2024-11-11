@@ -18,7 +18,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Optional<Usuario> login(String nombreUsuario, String contrasena) {
-        return usuarioRepository.login(nombreUsuario, contrasena);
+    public Usuario register(Usuario user) {
+        return usuarioRepository.save(user);
+    }
+
+    @Override
+    public Optional<Usuario> findByNombreUsuario(String nombre) {
+        return usuarioRepository.findByNombreUsuario(nombre);
     }
 }
