@@ -51,4 +51,9 @@ public class RecetaServiceImpl implements RecetaService {
     public List<Receta> buscarRecetas(String nombre, String tipoCocina, String ingredientes, String paisOrigen, String dificultad) {
         return repo.buscarRecetas(nombre, tipoCocina, ingredientes, paisOrigen, dificultad);
     }
+
+    @Override
+    public Receta register(Receta receta) {
+        return repo.save(receta);
+    }
 }

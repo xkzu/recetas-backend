@@ -36,19 +36,24 @@ public class SecurityConfig {
                                 .requestMatchers("/recetas/populares/**").permitAll()
                                 .requestMatchers("/banners/all").permitAll()
                                 .requestMatchers("/recetas/buscar/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/recetas/register").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/usuario/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/recetas/detalle/**").authenticated()
                                 .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(config -> config.sameOrigin()))
-                .logout(logout -> logout.permitAll());
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/inicio")
+                        .permitAll());
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
