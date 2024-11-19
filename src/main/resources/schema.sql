@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS receta (
     tiempo_coccion INT,
     porciones INT,
     fotografia_url VARCHAR(255),
+    video VARCHAR(255),
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_usuario BIGINT NOT NULL
     );
@@ -41,5 +42,47 @@ CREATE TABLE IF NOT EXISTS banner (
     url_imagen VARCHAR(255),
     link_website VARCHAR(255),
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+);
 
+CREATE TABLE comentarios (
+                             id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                             receta_id BIGINT NOT NULL,
+                             usuario_id BIGINT NOT NULL,
+                             contenido VARCHAR(500) NOT NULL,
+                             fecha_creacion DATETIME NOT NULL,
+                             CONSTRAINT fk_comentarios_receta
+                                 FOREIGN KEY (receta_id) REFERENCES receta(id),
+                             CONSTRAINT fk_comentarios_usuario
+                                 FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+);
+
+-- ALTER TABLE comentarios
+--     ADD CONSTRAINT fk_comentario_usuario
+--         FOREIGN KEY (usuario_id)
+--             REFERENCES usuario (id);
+--
+-- ALTER TABLE comentarios
+--     ADD CONSTRAINT fk_receta_usuario
+--         FOREIGN KEY (receta_id)
+--             REFERENCES receta (id);
+
+CREATE TABLE valoraciones (
+                              id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                              receta_id BIGINT NOT NULL,
+                              usuario_id BIGINT NOT NULL,
+                              puntaje INT NOT NULL,
+                              CONSTRAINT fk_valoraciones_receta
+                                  FOREIGN KEY (receta_id) REFERENCES receta(id),
+                              CONSTRAINT fk_valoraciones_usuario
+                                  FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+);
+
+-- ALTER TABLE valoraciones
+--     ADD CONSTRAINT fk_valoracion_usuario
+--         FOREIGN KEY (usuario_id)
+--             REFERENCES usuario (id);
+--
+-- ALTER TABLE valoraciones
+--     ADD CONSTRAINT fk_receta_valoracion
+--         FOREIGN KEY (receta_id)
+--             REFERENCES receta (id);
