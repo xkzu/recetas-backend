@@ -6,6 +6,7 @@ import cl.duoc.app.recetas_backend.response.LoginResponse;
 import cl.duoc.app.recetas_backend.service.UsuarioService;
 import cl.duoc.app.recetas_backend.util.JwtUtil;
 import cl.duoc.app.recetas_backend.util.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
+@Slf4j
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -35,12 +37,17 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody UsuarioReq user) {
         Optional<Usuario> usuario = usuarioService.findByNombreUsuario(user.getNombre());
+        log.info("Usuario encontrado: {}", usuario);
 
         if (usuario.isPresent()) {
             if (passwordEncoder.matches(user.getPassword(), usuario.get().getContrasena())) {
                 String token = jwtUtil.generateToken(user.getNombre());
                 return ResponseEntity.ok(new LoginResponse(usuario, token));
             } else {
+                if (usuario.get().getContrasena().equals(user.getPassword())) {
+                    String token = jwtUtil.generateToken(user.getNombre());
+                    return ResponseEntity.ok(new LoginResponse(usuario, token));
+                }
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
         } else {

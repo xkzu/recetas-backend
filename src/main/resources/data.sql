@@ -55,3 +55,20 @@ INSERT INTO banner (empresa_nombre, mensaje, url_imagen, link_website, fecha_cre
                                                                                            ('EcoGreen', 'Cuidamos el planeta con nuestros productos ecoamigables', '/images/ecogreen.jpg', 'https://www.ecogreen.com', '2024-11-01 11:00:00'),
                                                                                            ('AutoPlus', 'Encuentra el auto de tus sueños al mejor precio', '/images/autoplus.jpg', 'https://www.autoplus.com', '2024-11-01 12:00:00');
 
+INSERT INTO comentarios (receta_id, usuario_id, contenido, fecha_creacion)
+VALUES (1, 1, '¡Excelente receta! Muy fácil de seguir y deliciosa.', '2024-11-18 10:30:00');
+
+INSERT INTO comentarios (receta_id, usuario_id, contenido, fecha_creacion)
+VALUES (2, 3, 'Me encantó, aunque agregué un poco más de especias.', '2024-11-18 11:45:00');
+
+INSERT INTO comentarios (receta_id, usuario_id, contenido, fecha_creacion)
+VALUES (1, 2, 'No tuve los mismos resultados, pero puede ser error mío.', '2024-11-18 12:15:00');
+
+INSERT INTO valoraciones (receta_id, usuario_id, puntaje)
+VALUES (1, 1, 5);
+
+INSERT INTO valoraciones (receta_id, usuario_id, puntaje)
+VALUES (2, 3, 4);
+
+INSERT INTO valoraciones (receta_id, usuario_id, puntaje)
+VALUES (3, 2, 3);
