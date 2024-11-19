@@ -54,6 +54,9 @@ public class Receta {
     @Column(name = "fotografia_url")
     private String fotografiaUrl;
 
+    @Column(name = "video")
+    private String video;
+
     @CreationTimestamp
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
