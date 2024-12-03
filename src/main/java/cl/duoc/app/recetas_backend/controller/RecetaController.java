@@ -82,16 +82,8 @@ public class RecetaController {
     @PostMapping("/register")
     public ResponseEntity<Receta> registrarReceta(@RequestBody Receta receta, @RequestHeader("Authorization") String token) {
         try {
-            if (token == null || !token.startsWith("Bearer ")) {
+            if (Util.validateToken(token, jwtUtil))
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
-
-            token = token.substring(7);
-            String username = jwtUtil.extractUsername(token);
-
-            if (Boolean.FALSE.equals(jwtUtil.validateToken(token, username))) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
 
             if (Util.isEmptyOrNull(receta.getDificultad())
                     || Util.isEmptyOrNull(receta.getNombre())
