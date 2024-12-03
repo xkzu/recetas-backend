@@ -8,5 +8,9 @@ public interface ComentarioService {
 
     Comentario save(Comentario comentario);
 
-    List<Comentario> getAllByIdReceta(Long id);
+    List<Comentario> getAll();
+
+    List<Comentario> getAllByIdReceta(Long id, boolean visible);
+
+    void aprobarComentario(Long id, boolean visible);
 }
