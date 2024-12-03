@@ -50,11 +50,13 @@ CREATE TABLE comentarios (
                              usuario_id BIGINT NOT NULL,
                              contenido VARCHAR(500) NOT NULL,
                              fecha_creacion DATETIME NOT NULL,
+                             visible BOOLEAN NOT NULL DEFAULT false,
                              CONSTRAINT fk_comentarios_receta
                                  FOREIGN KEY (receta_id) REFERENCES receta(id),
                              CONSTRAINT fk_comentarios_usuario
                                  FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
+
 
 -- ALTER TABLE comentarios
 --     ADD CONSTRAINT fk_comentario_usuario

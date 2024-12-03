@@ -23,7 +23,17 @@ public class ComentarioServiceImpl implements ComentarioService{
     }
 
     @Override
-    public List<Comentario> getAllByIdReceta(Long id) {
-        return comentarioRepository.findByIdReceta(id);
+    public List<Comentario> getAll() {
+        return comentarioRepository.findAll();
+    }
+
+    @Override
+    public List<Comentario> getAllByIdReceta(Long id, boolean visible) {
+        return comentarioRepository.findByIdRecetaAndVisible(id, visible);
+    }
+
+    @Override
+    public void aprobarComentario(Long id, boolean visible) {
+        comentarioRepository.actualizarVisibilidad(id, visible);
     }
 }

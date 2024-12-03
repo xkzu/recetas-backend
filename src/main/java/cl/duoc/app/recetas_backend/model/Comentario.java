@@ -30,4 +30,7 @@ public class Comentario {
 
     @Column(nullable = false)
     private LocalDateTime fechaCreacion;
+
+    @Column(nullable = false)
+    private boolean visible;
 }

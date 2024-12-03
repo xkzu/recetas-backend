@@ -43,6 +43,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/usuario/register").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/comentario/add").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/valoracion/add").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/comentarios/aprobar/**").authenticated() // Agregar regla para PUT
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/recetas/detalle/**").authenticated()
                                 .anyRequest().authenticated()
@@ -57,7 +58,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
