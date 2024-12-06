@@ -13,11 +13,11 @@ public class Util {
 
     public static boolean validateToken(@RequestHeader("Authorization") String token, JwtUtil jwtUtil) {
         if (token == null || !token.startsWith("Bearer ")) {
-            return true;
+            return false;
         }
         token = token.substring(7);
         String username = jwtUtil.extractUsername(token);
-
-        return Boolean.FALSE.equals(jwtUtil.validateToken(token, username));
+        return Boolean.TRUE.equals(jwtUtil.validateToken(token, username));
     }
+
 }
