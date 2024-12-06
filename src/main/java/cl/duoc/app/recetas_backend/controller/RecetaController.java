@@ -82,8 +82,9 @@ public class RecetaController {
     @PostMapping("/register")
     public ResponseEntity<Receta> registrarReceta(@RequestBody Receta receta, @RequestHeader("Authorization") String token) {
         try {
-            if (Util.validateToken(token, jwtUtil))
+            if (!Util.validateToken(token, jwtUtil)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
 
             if (Util.isEmptyOrNull(receta.getDificultad())
                     || Util.isEmptyOrNull(receta.getNombre())
@@ -92,6 +93,7 @@ public class RecetaController {
                     || Util.isEmptyOrNull(receta.getFotografiaUrl())
                     || Util.isEmptyOrNull(receta.getTipoCocina())
                     || Util.isEmptyOrNull(receta.getInstruccionesPreparacion())) {
+
                 return ResponseEntity.badRequest().build();
             }
 
