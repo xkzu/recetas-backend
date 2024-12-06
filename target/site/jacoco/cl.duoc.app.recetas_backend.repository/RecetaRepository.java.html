@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecetaRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">recetas-backend</a> &gt; <a href="index.source.html" class="el_package">cl.duoc.app.recetas_backend.repository</a> &gt; <span class="el_source">RecetaRepository.java</span></div><h1>RecetaRepository.java</h1><pre class="source lang-java linenums">package cl.duoc.app.recetas_backend.repository;
+
+import cl.duoc.app.recetas_backend.model.Receta;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface RecetaRepository extends JpaRepository&lt;Receta, Long&gt; {
+
+    Optional&lt;Receta&gt; findByNombre(String nombre);
+
+    List&lt;Receta&gt; findByPaisOrigen(String paisOrigen);
+
+    List&lt;Receta&gt; findAllByOrderByFechaCreacionDesc(Pageable pageable);
+
+    default List&lt;Receta&gt; findRecientes(int limite) {
+<span class="fc" id="L24">        return findAllByOrderByFechaCreacionDesc(PageRequest.of(0, limite));</span>
+    }
+
+    List&lt;Receta&gt; findAllByOrderByPopularidadDesc(Pageable pageable);
+
+    @Query(&quot;SELECT r FROM Receta r &quot; +
+            &quot;WHERE (:nombre IS NULL OR LOWER(r.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))) &quot; +
+            &quot;AND (:tipoCocina IS NULL OR LOWER(r.tipoCocina) LIKE LOWER(CONCAT('%', :tipoCocina, '%'))) &quot; +
+            &quot;AND (:ingredientes IS NULL OR LOWER(r.ingredientes) LIKE LOWER(CONCAT('%', :ingredientes, '%'))) &quot; +
+            &quot;AND (:paisOrigen IS NULL OR LOWER(r.paisOrigen) LIKE LOWER(CONCAT('%', :paisOrigen, '%'))) &quot; +
+            &quot;AND (:dificultad IS NULL OR LOWER(r.dificultad) LIKE LOWER(CONCAT('%', :dificultad, '%')))&quot;)
+    List&lt;Receta&gt; buscarRecetas(@Param(&quot;nombre&quot;) String nombre,
+                               @Param(&quot;tipoCocina&quot;) String tipoCocina,
+                               @Param(&quot;ingredientes&quot;) String ingredientes,
+                               @Param(&quot;paisOrigen&quot;) String paisOrigen,
+                               @Param(&quot;dificultad&quot;) String dificultad);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

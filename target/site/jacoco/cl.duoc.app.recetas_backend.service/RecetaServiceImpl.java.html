@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecetaServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">recetas-backend</a> &gt; <a href="index.source.html" class="el_package">cl.duoc.app.recetas_backend.service</a> &gt; <span class="el_source">RecetaServiceImpl.java</span></div><h1>RecetaServiceImpl.java</h1><pre class="source lang-java linenums">package cl.duoc.app.recetas_backend.service;
+
+import cl.duoc.app.recetas_backend.model.Receta;
+import cl.duoc.app.recetas_backend.repository.RecetaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class RecetaServiceImpl implements RecetaService {
+
+    private final RecetaRepository repo;
+
+    @Autowired
+<span class="fc" id="L18">    public RecetaServiceImpl(RecetaRepository repo) {</span>
+<span class="fc" id="L19">        this.repo = repo;</span>
+<span class="fc" id="L20">    }</span>
+
+    @Override
+    public List&lt;Receta&gt; findAll() {
+<span class="fc" id="L24">        return repo.findAll();</span>
+    }
+
+    @Override
+    public Optional&lt;Receta&gt; findById(Long id) {
+<span class="fc" id="L29">        return repo.findById(id);</span>
+    }
+
+    @Override
+    public Optional&lt;Receta&gt; findByName(String name) {
+<span class="fc" id="L34">        return repo.findByNombre(name);</span>
+    }
+
+    @Override
+    public List&lt;Receta&gt; findByCountry(String pais) {
+<span class="fc" id="L39">        return repo.findByPaisOrigen(pais);</span>
+    }
+
+    public List&lt;Receta&gt; obtenerRecetasMasRecientes(int limite) {
+<span class="fc" id="L43">        return repo.findRecientes(limite);</span>
+    }
+
+    @Override
+    public List&lt;Receta&gt; obtenerRecetasMasPopulares(int limite) {
+<span class="fc" id="L48">        return repo.findAllByOrderByPopularidadDesc(PageRequest.of(0, limite));</span>
+    }
+
+    public List&lt;Receta&gt; buscarRecetas(String nombre, String tipoCocina, String ingredientes, String paisOrigen, String dificultad) {
+<span class="fc" id="L52">        return repo.buscarRecetas(nombre, tipoCocina, ingredientes, paisOrigen, dificultad);</span>
+    }
+
+    @Override
+    public Receta register(Receta receta) {
+<span class="fc" id="L57">        return repo.save(receta);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

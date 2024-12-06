@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecetaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">recetas-backend</a> &gt; <a href="index.source.html" class="el_package">cl.duoc.app.recetas_backend.controller</a> &gt; <span class="el_source">RecetaController.java</span></div><h1>RecetaController.java</h1><pre class="source lang-java linenums">package cl.duoc.app.recetas_backend.controller;
+
+import cl.duoc.app.recetas_backend.model.Receta;
+import cl.duoc.app.recetas_backend.service.RecetaService;
+import cl.duoc.app.recetas_backend.util.JwtUtil;
+import cl.duoc.app.recetas_backend.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping(&quot;/recetas&quot;)
+public class RecetaController {
+
+<span class="fc" id="L27">    private static final Logger log = LoggerFactory.getLogger(RecetaController.class);</span>
+    private final RecetaService recetaService;
+
+    private final JwtUtil jwtUtil;
+
+    @Autowired
+<span class="fc" id="L33">    public RecetaController(RecetaService recetaService, JwtUtil jwtUtil) {</span>
+<span class="fc" id="L34">        this.recetaService = recetaService;</span>
+<span class="fc" id="L35">        this.jwtUtil = jwtUtil;</span>
+<span class="fc" id="L36">    }</span>
+
+    @GetMapping(&quot;/recientes/{limite}&quot;)
+    public ResponseEntity&lt;List&lt;Receta&gt;&gt; recientes(@PathVariable int limite) {
+        try {
+<span class="fc" id="L41">            return ResponseEntity.ok(recetaService.obtenerRecetasMasRecientes(limite));</span>
+<span class="fc" id="L42">        } catch (Exception e) {</span>
+<span class="fc" id="L43">            return ResponseEntity.internalServerError().build();</span>
+        }
+    }
+
+    @GetMapping(&quot;/all&quot;)
+    public ResponseEntity&lt;List&lt;Receta&gt;&gt; getAllRecetas() {
+<span class="fc" id="L49">        return ResponseEntity.ok(recetaService.findAll());</span>
+    }
+
+    @GetMapping(&quot;/populares/{limite}&quot;)
+    public ResponseEntity&lt;List&lt;Receta&gt;&gt; populares(@PathVariable int limite) {
+<span class="fc" id="L54">        return ResponseEntity.ok(recetaService.obtenerRecetasMasPopulares(limite));</span>
+    }
+
+    @GetMapping(&quot;/buscar/{nombre}/{tipoCocina}/{ingredientes}/{paisOrigen}/{dificultad}&quot;)
+    public ResponseEntity&lt;List&lt;Receta&gt;&gt; buscarRecetas(
+            @PathVariable String nombre,
+            @PathVariable String tipoCocina,
+            @PathVariable String ingredientes,
+            @PathVariable String paisOrigen,
+            @PathVariable String dificultad) {
+
+<span class="fc" id="L65">        List&lt;Receta&gt; recetas = recetaService.buscarRecetas(</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                &quot;any&quot;.equalsIgnoreCase(nombre) ? null : nombre,</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">                &quot;any&quot;.equalsIgnoreCase(tipoCocina) ? null : tipoCocina,</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">                &quot;any&quot;.equalsIgnoreCase(ingredientes) ? null : ingredientes,</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">                &quot;any&quot;.equalsIgnoreCase(paisOrigen) ? null : paisOrigen,</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">                &quot;any&quot;.equalsIgnoreCase(dificultad) ? null : dificultad);</span>
+
+<span class="fc" id="L72">        return ResponseEntity.ok(recetas);</span>
+    }
+
+    @GetMapping(&quot;/detalle/{id}&quot;)
+    public ResponseEntity&lt;Receta&gt; getRecetaDetalle(@PathVariable Long id) {
+<span class="fc" id="L77">        Optional&lt;Receta&gt; receta = recetaService.findById(id);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (receta.isPresent()) {</span>
+<span class="fc" id="L79">            return ResponseEntity.ok(receta.get());</span>
+        } else {
+<span class="fc" id="L81">            return ResponseEntity.notFound().build();</span>
+        }
+    }
+
+    @PostMapping(&quot;/register&quot;)
+    public ResponseEntity&lt;Receta&gt; registrarReceta(@RequestBody Receta receta, @RequestHeader(&quot;Authorization&quot;) String token) {
+<span class="fc" id="L87">        log.info(&quot;receta: {}&quot;, receta);</span>
+<span class="fc" id="L88">        log.info(&quot;token: {}&quot;, token);</span>
+        try {
+<span class="fc bfc" id="L90" title="All 2 branches covered.">            if (!Util.validateToken(token, jwtUtil)) {</span>
+<span class="fc" id="L91">                log.info(&quot;token valido&quot;);</span>
+<span class="fc" id="L92">                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();</span>
+            }
+
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            if (Util.isEmptyOrNull(receta.getDificultad())</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getNombre())</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getIngredientes())</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getPaisOrigen())</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getFotografiaUrl())</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getTipoCocina())</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getInstruccionesPreparacion())) {</span>
+<span class="fc" id="L102">                log.info(&quot;receta duplicada&quot;);</span>
+<span class="fc" id="L103">                return ResponseEntity.badRequest().build();</span>
+            }
+
+<span class="fc" id="L106">            return ResponseEntity.ok(recetaService.register(receta));</span>
+<span class="fc" id="L107">        } catch (Exception e) {</span>
+<span class="fc" id="L108">            return ResponseEntity.internalServerError().build();</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
