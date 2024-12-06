@@ -35,7 +35,7 @@ public class ComentarioController {
     @PostMapping("/add")
     public ResponseEntity<Comentario> add(@RequestBody Comentario comentario, @RequestHeader("Authorization") String token) {
         try {
-            if (Util.validateToken(token, jwtUtil)) {
+            if (!Util.validateToken(token, jwtUtil)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
             return ResponseEntity.ok(comentarioService.save(comentario));
@@ -47,7 +47,7 @@ public class ComentarioController {
     @GetMapping("/all/{id}")
     public ResponseEntity<List<Comentario>> getAll(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         try {
-            if (Util.validateToken(token, jwtUtil)) {
+            if (!Util.validateToken(token, jwtUtil)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
             return ResponseEntity.ok(comentarioService.getAllByIdReceta(id, true));
@@ -59,7 +59,7 @@ public class ComentarioController {
     @GetMapping("/all")
     public ResponseEntity<List<Comentario>> getAllAdmin(@RequestHeader("Authorization") String token) {
         try {
-            if (Util.validateToken(token, jwtUtil)) {
+            if (!Util.validateToken(token, jwtUtil)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
             return ResponseEntity.ok(comentarioService.getAll());
@@ -72,13 +72,17 @@ public class ComentarioController {
     public ResponseEntity<Comentario> aprobar(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         try {
             if (!Util.validateToken(token, jwtUtil)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                throw new SecurityException("Token inválido");
             }
             comentarioService.aprobarComentario(id, true);
             return ResponseEntity.ok().build();
+
+        } catch (SecurityException se) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
 
 }
