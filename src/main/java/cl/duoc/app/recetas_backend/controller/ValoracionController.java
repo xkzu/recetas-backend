@@ -34,7 +34,7 @@ public class ValoracionController {
     @PostMapping("/add")
     public ResponseEntity<Valoracion> addValoracion(@RequestBody Valoracion valoracion, @RequestHeader("Authorization") String token) {
         try {
-            if (Util.validateToken(token, jwtUtil)) {
+            if (!Util.validateToken(token, jwtUtil)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
             return ResponseEntity.ok(valoracionService.save(valoracion));
@@ -46,7 +46,7 @@ public class ValoracionController {
     @GetMapping("all/{id}")
     public ResponseEntity<List<Valoracion>> findAll(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         try {
-            if (Util.validateToken(token, jwtUtil)) {
+            if (!Util.validateToken(token, jwtUtil)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
             return ResponseEntity.ok(valoracionService.findAll(id));
