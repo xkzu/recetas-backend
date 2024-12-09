@@ -84,28 +84,27 @@ public class RecetaController {
 
     @PostMapping(&quot;/register&quot;)
     public ResponseEntity&lt;Receta&gt; registrarReceta(@RequestBody Receta receta, @RequestHeader(&quot;Authorization&quot;) String token) {
-<span class="fc" id="L87">        log.info(&quot;receta: {}&quot;, receta);</span>
-<span class="fc" id="L88">        log.info(&quot;token: {}&quot;, token);</span>
+<span class="fc" id="L87">        log.info(&quot;receta {}&quot;, receta);</span>
+<span class="fc" id="L88">        log.info(&quot;token {}&quot;, token);</span>
         try {
 <span class="fc bfc" id="L90" title="All 2 branches covered.">            if (!Util.validateToken(token, jwtUtil)) {</span>
-<span class="fc" id="L91">                log.info(&quot;token valido&quot;);</span>
-<span class="fc" id="L92">                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();</span>
+<span class="fc" id="L91">                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();</span>
             }
 
-<span class="fc bfc" id="L95" title="All 2 branches covered.">            if (Util.isEmptyOrNull(receta.getDificultad())</span>
-<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getNombre())</span>
-<span class="pc bpc" id="L97" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getIngredientes())</span>
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getPaisOrigen())</span>
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getFotografiaUrl())</span>
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getTipoCocina())</span>
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getInstruccionesPreparacion())) {</span>
-<span class="fc" id="L102">                log.info(&quot;receta duplicada&quot;);</span>
-<span class="fc" id="L103">                return ResponseEntity.badRequest().build();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            if (Util.isEmptyOrNull(receta.getDificultad())</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getNombre())</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getIngredientes())</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getPaisOrigen())</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getFotografiaUrl())</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getTipoCocina())</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                    || Util.isEmptyOrNull(receta.getInstruccionesPreparacion())) {</span>
+
+<span class="fc" id="L102">                return ResponseEntity.badRequest().build();</span>
             }
 
-<span class="fc" id="L106">            return ResponseEntity.ok(recetaService.register(receta));</span>
-<span class="fc" id="L107">        } catch (Exception e) {</span>
-<span class="fc" id="L108">            return ResponseEntity.internalServerError().build();</span>
+<span class="fc" id="L105">            return ResponseEntity.ok(recetaService.register(receta));</span>
+<span class="fc" id="L106">        } catch (Exception e) {</span>
+<span class="fc" id="L107">            return ResponseEntity.internalServerError().build();</span>
         }
     }
 

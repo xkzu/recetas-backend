@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: cl.duoc.app.recetas_backend.controller.ComentarioControllerTest
 -------------------------------------------------------------------------------
-Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.203 s -- in cl.duoc.app.recetas_backend.controller.ComentarioControllerTest
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.368 s -- in cl.duoc.app.recetas_backend.controller.ComentarioControllerTest
