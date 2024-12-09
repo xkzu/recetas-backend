@@ -4,6 +4,8 @@ import cl.duoc.app.recetas_backend.model.Receta;
 import cl.duoc.app.recetas_backend.service.RecetaService;
 import cl.duoc.app.recetas_backend.util.JwtUtil;
 import cl.duoc.app.recetas_backend.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import java.util.Optional;
 @RequestMapping("/recetas")
 public class RecetaController {
 
+    private static final Logger log = LoggerFactory.getLogger(RecetaController.class);
     private final RecetaService recetaService;
 
     private final JwtUtil jwtUtil;
@@ -81,6 +84,8 @@ public class RecetaController {
 
     @PostMapping("/register")
     public ResponseEntity<Receta> registrarReceta(@RequestBody Receta receta, @RequestHeader("Authorization") String token) {
+        log.info("receta {}", receta);
+        log.info("token {}", token);
         try {
             if (!Util.validateToken(token, jwtUtil)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

@@ -4,6 +4,8 @@ import cl.duoc.app.recetas_backend.model.Comentario;
 import cl.duoc.app.recetas_backend.service.ComentarioService;
 import cl.duoc.app.recetas_backend.util.JwtUtil;
 import cl.duoc.app.recetas_backend.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import java.util.List;
 @RequestMapping("/comentario")
 public class ComentarioController {
 
+    private static final Logger log = LoggerFactory.getLogger(ComentarioController.class);
     private final ComentarioService comentarioService;
 
     private final JwtUtil jwtUtil;
@@ -59,6 +62,7 @@ public class ComentarioController {
     @GetMapping("/all")
     public ResponseEntity<List<Comentario>> getAllAdmin(@RequestHeader("Authorization") String token) {
         try {
+            log.info("token {}", token);
             if (!Util.validateToken(token, jwtUtil)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
